@@ -5,12 +5,12 @@ from unidecode import unidecode
 
 
 
-#client = pymongo.MongoClient("mongodb+srv://@cluster0-074iv.gcp.mongodb.net/test?retryWrites=true&w=majority")
-#client = pymongo.MongoClient('mongodb://127.0.0.1:27017')
+client = pymongo.MongoClient("mongodb+srv://@cluster0-074iv.gcp.mongodb.net/test?retryWrites=true&w=majority")
+client = pymongo.MongoClient('mongodb://127.0.0.1:27017')
 
-# db = client['dbCotacoes'] #criando banco
-# colContacao = db['cotacoes'] #criando collection
-# colOpcao = db['opcoes']
+db = client['dbCotacoes'] #criando banco
+colContacao = db['cotacoes'] #criando collection
+colOpcao = db['opcoes']
 
 def limpaOpcoes(lista):
     novalista = []
@@ -109,10 +109,11 @@ class PrecodiarioSpider(scrapy.Spider):
         opcoes = removeEspaco(opcoes)
         opcoes = limpaOpcoes(opcoes)
         
-        # if len(dados) > 0:
-        #     colContacao.drop()
-        #     colOpcao.drop()
-        #     colContacao.insert_many(dados)
-        #     colOpcao.insert_many(opcoes)
+        if len(dados) > 0:
+            colContacao.drop()
+            colOpcao.drop()
+            colContacao.insert_many(dados)
+            colOpcao.insert_many(opcoes)
         print('Total de {} dados coletados, com data de {}'.format(len(dados)-1, data["data"]))
         imprime(dados)
+        imprime(opcoes)
